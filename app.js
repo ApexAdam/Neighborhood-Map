@@ -1,43 +1,54 @@
 
 var map;
 var markers = []; // this should be probably somewhere in viewModel
-function initMap() {
+
+
+var locations = [
+    {title: "Naam Thai", location: {lat: 52.2305266, lng: 21.0609601}},
+    {title: "Trattoria Rucola", location: {lat: 52.2322225, lng: 21.0557555}},
+    {title: "National Stadium", location: {lat: 52.2394957, lng: 21.0457909}},
+    {title: "Stairs by Vistula River", location: {lat: 52.2328449, lng: 21.040925}},
+    {title: "Pikanteria", location: {lat: 52.2364695, lng: 21.0635283}}
+];
+
+
+
+
+var ViewModel = function () {
+    var self = this;
+
+    this.locationsList = ko.observableArray([]);
+
     map = new google.maps.Map(document.getElementById('map'),{
         center: {lat: 52.2299052, lng: 21.0509418},
         zoom: 14
     });
 
+    locations.forEach(function (locationItem) {
+        self.locationsList.push(new Location(locationItem));
+    })
+};
 
-    var locations = [
-        {title: "Naam Thai", location: {lat: 52.2305266, lng: 21.0609601}},
-        {title: "Trattoria Rucola", location: {lat: 52.2322225, lng: 21.0557555}},
-        {title: "National Stadium", location: {lat: 52.2394957, lng: 21.0457909}},
-        {title: "Stairs by Vistula River", location: {lat: 52.2328449, lng: 21.040925}},
-        {title: "Pikanteria", location: {lat: 52.2364695, lng: 21.0635283}}
-    ];
+var Location = function (data) {
+    this.locationName = data.title;
+    this.infowindow = new google.maps.InfoWindow();
 
-    var infowindow = new google.maps.InfoWindow();
-
-    for (var i = 0; i < locations.length; i++){
-        var position = locations[i].location;
-        var title = locations[i].title;
-
-        var marker = new google.maps.Marker({
+        this.marker = new google.maps.Marker({
             map: map,
-            position: position,
-            title: title,
-            animation: google.maps.Animation.DROP,
-            id: i
+            position: data.location,
+            title: data.title,
+            animation: google.maps.Animation.DROP
         });
-        markers.push(marker);
-        marker.addListener('click', function () {
-            populateInfoWindow(this, infowindow);
+        this.marker.addListener('click', function () {
+            this.infowindow.setContent('<div>' + this.marker.title + '</div>');
+            this.infowindow.open(map, this.marker);
         });
-    }
+
+
 
     function populateInfoWindow(marker, infoWindow) {
         // Chceck if infowindow is not already opened on this maker
-        if(infoWindow.marker != marker){
+        if(infoWindow.marker !== marker){
             infoWindow.marker = marker;
             infoWindow.setContent('<div>' + marker.title + '</div>');
             infoWindow.open(map, marker);
@@ -47,4 +58,8 @@ function initMap() {
             })
         }
     }
+};
+
+function runApp() {
+    ko.applyBindings(new ViewModel());
 }
