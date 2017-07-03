@@ -3,14 +3,17 @@ var map;
 var markers = []; // this should be probably somewhere in viewModel
 function initMap() {
     map = new google.maps.Map(document.getElementById('map'),{
-        center: {lat: 52.2272052, lng: 21.0509418},
+        center: {lat: 52.2299052, lng: 21.0509418},
         zoom: 14
     });
 
 
     var locations = [
         {title: "Naam Thai", location: {lat: 52.2305266, lng: 21.0609601}},
-        {title: "Trattoria Rucola", location: {lat: 52.2322225, lng: 21.0557555}}
+        {title: "Trattoria Rucola", location: {lat: 52.2322225, lng: 21.0557555}},
+        {title: "National Stadium", location: {lat: 52.2394957, lng: 21.0457909}},
+        {title: "Stairs by Vistula River", location: {lat: 52.2328449, lng: 21.040925}},
+        {title: "Pikanteria", location: {lat: 52.2364695, lng: 21.0635283}}
     ];
 
     var infowindow = new google.maps.InfoWindow();
