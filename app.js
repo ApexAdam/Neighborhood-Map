@@ -1,5 +1,6 @@
+
 var map;
-var markers = [];
+var markers = []; // this should be probably somewhere in viewModel
 function initMap() {
     map = new google.maps.Map(document.getElementById('map'),{
         center: {lat: 52.2272052, lng: 21.0509418},
@@ -8,7 +9,8 @@ function initMap() {
 
 
     var locations = [
-        {title: "Naam Thai", location: {lat: 52.2305266, lng: 21.0609601}}
+        {title: "Naam Thai", location: {lat: 52.2305266, lng: 21.0609601}},
+        {title: "Trattoria Rucola", location: {lat: 52.2322225, lng: 21.0557555}}
     ];
 
     var infowindow = new google.maps.InfoWindow();

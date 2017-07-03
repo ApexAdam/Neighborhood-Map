@@ -2,27 +2,68 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Warsaw's best places</title>
     <style>
-        html, body{
+        html,
+        body {
+            font-family: Arial, sans-serif;
             height: 100%;
             margin: 0;
             padding: 0;
         }
-
-        #map{
+        .container {
             height: 100%;
+            position: relative;
+        }
+        input {
+            font-size: 12px;
+        }
+        h1 {
+            color: #fcf7f7;
+            font-size: 22px;
+            margin: 0 0 10px 0;
+            text-align: center;
+        }
+        #hide-listings,
+        #show-listings {
+            width: 48%;
+        }
+        #map {
+            bottom:0px;
+            height: 100%;
+            left: 302px;
+            position: absolute;
+            right: 0px;
+        }
+        .options-box {
+            background: #4f5051;
+            border: 1px solid #999;
+            border-radius: 3px;
+            height: 100%;
+            line-height: 35px;
+            padding: 10px 10px 30px 10px;
+            text-align: left;
+            width: 280px;
         }
 
     </style>
 </head>
 <body>
 
-<div id="map"></div>
+<div class="container">
+    <div class="options-box">
+        <h1>Search</h1>
+        <div>
+            <input id="filter" type="button" value="Filter">
+        </div>
+    </div>
+    <div id="map"></div>
+</div>
 
 <script async defer
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDYuqgJGEKkwi97yS01roQ9hg0Bt9FoV1I&v=3&callback=initMap">
 </script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.2/knockout-debug.js"></script>
 <script src="app.js"></script>
 </body>
