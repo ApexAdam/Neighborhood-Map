@@ -12,8 +12,6 @@ var locations = [
 ];
 
 
-
-
 var ViewModel = function () {
     var self = this;
 
@@ -30,6 +28,8 @@ var ViewModel = function () {
 };
 
 var Location = function (data) {
+    var self = this;
+
     this.locationName = data.title;
     this.infowindow = new google.maps.InfoWindow();
 
@@ -40,24 +40,12 @@ var Location = function (data) {
             animation: google.maps.Animation.DROP
         });
         this.marker.addListener('click', function () {
-            this.infowindow.setContent('<div>' + this.marker.title + '</div>');
-            this.infowindow.open(map, this.marker);
+            if(self.infowindow !== self.marker) {
+                self.infowindow.marker = self.marker;
+                self.infowindow.setContent('<div>' + self.locationName + '</div>');
+                self.infowindow.open(map, this);
+            }
         });
-
-
-
-    function populateInfoWindow(marker, infoWindow) {
-        // Chceck if infowindow is not already opened on this maker
-        if(infoWindow.marker !== marker){
-            infoWindow.marker = marker;
-            infoWindow.setContent('<div>' + marker.title + '</div>');
-            infoWindow.open(map, marker);
-            // Clear the property if closed
-            infoWindow.addListener('closeclick', function () {
-                infoWindow.setMarker(null);
-            })
-        }
-    }
 };
 
 function runApp() {
