@@ -16,6 +16,7 @@ var ViewModel = function () {
     var self = this;
 
     this.locationsList = ko.observableArray([]);
+    this.filterInput = ko.observable("");
 
     map = new google.maps.Map(document.getElementById('map'),{
         center: {lat: 52.2299052, lng: 21.0509418},
@@ -24,7 +25,21 @@ var ViewModel = function () {
 
     locations.forEach(function (locationItem) {
         self.locationsList.push(new Location(locationItem));
+    });
+
+    this.filteredList = ko.computed(function () {
+           var filterText = self.filterInput().toLowerCase();
+           if(!filterText){
+               return self.locationsList();
+           }else{
+                return ko.utils.arrayFilter(self.locationsList(), function (location) {
+                    var name = location.locationName.toLowerCase();
+                    return (name.search(filterText) >= 0)
+                })
+       }
     })
+
+
 };
 
 var Location = function (data) {

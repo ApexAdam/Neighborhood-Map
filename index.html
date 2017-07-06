@@ -21,8 +21,9 @@
         h1 {
             color: #fcf7f7;
             font-size: 22px;
-            margin: 0 0 10px 0;
             text-align: center;
+            float: left;
+            margin: 0 10px 10px 0;
         }
         #map {
             bottom:0;
@@ -52,11 +53,9 @@
 
 <div class="container">
     <div class="search-box">
-        <h1>Search</h1>
-        <div>
-            <input id="filter" type="button" value="Filter">
-        </div>
-        <ul data-bind="foreach: locationsList">
+        <h1>Filter</h1>
+        <input id="'filter-box" data-bind="textInput: filterInput, vakueUpdate: 'afterkeydown' " type="text">
+        <ul data-bind="foreach: filteredList">
             <li data-bind="text: locationName"></li>
         </ul>
     </div>
