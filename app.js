@@ -1,7 +1,4 @@
-
 var map;
-var markers = []; // this should be probably somewhere in viewModel
-
 
 var locations = [
     {title: "Naam Thai", location: {lat: 52.2305266, lng: 21.0609601}},
@@ -40,6 +37,8 @@ var ViewModel = function () {
     })
 
 
+
+
 };
 
 var Location = function (data) {
@@ -61,6 +60,10 @@ var Location = function (data) {
                 self.infowindow.open(map, this);
             }
         });
+
+    this.focusOnMarker = function (marker) {
+        google.maps.event.trigger(self.marker, 'click');
+    }
 };
 
 function runApp() {

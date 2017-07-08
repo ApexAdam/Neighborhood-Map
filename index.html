@@ -56,7 +56,7 @@
         <h1>Filter</h1>
         <input id="'filter-box" data-bind="textInput: filterInput, vakueUpdate: 'afterkeydown' " type="text">
         <ul data-bind="foreach: filteredList">
-            <li data-bind="text: locationName"></li>
+            <li data-bind="text: locationName, click: focusOnMarker"></li>
         </ul>
     </div>
     <div id="map"></div>
