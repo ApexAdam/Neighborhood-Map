@@ -14,6 +14,7 @@ var ViewModel = function () {
 
     this.locationsList = ko.observableArray([]);
     this.filterInput = ko.observable("");
+    this.visible = ko.observable(true);
 
     map = new google.maps.Map(document.getElementById('map'),{
         center: {lat: 52.2299052, lng: 21.0509418},
@@ -27,11 +28,16 @@ var ViewModel = function () {
     this.filteredList = ko.computed(function () {
            var filterText = self.filterInput().toLowerCase();
            if(!filterText){
+               self.locationsList().forEach(function (location) {
+                   location.visible(true);
+               });
                return self.locationsList();
            }else{
                 return ko.utils.arrayFilter(self.locationsList(), function (location) {
                     var name = location.locationName.toLowerCase();
-                    return (name.search(filterText) >= 0)
+                    var result = (name.search(filterText) >= 0);
+                    location.visible(result);
+                    return result;
                 })
        }
     })
@@ -46,6 +52,8 @@ var Location = function (data) {
 
     this.locationName = data.title;
     this.infowindow = new google.maps.InfoWindow();
+    this.visible = ko.observable(true);
+
 
         this.marker = new google.maps.Marker({
             map: map,
@@ -60,6 +68,16 @@ var Location = function (data) {
                 self.infowindow.open(map, this);
             }
         });
+
+        this.showLocation = ko.computed(function () {
+            if(this.visible() === true){
+                this.marker.setMap(map);
+            }else{
+                this.marker.setMap(null);
+            }
+           return true;
+            
+        }, this);
 
     this.focusOnMarker = function (marker) {
         google.maps.event.trigger(self.marker, 'click');
