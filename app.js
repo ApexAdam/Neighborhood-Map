@@ -1,11 +1,10 @@
 var map;
-
 var locations = [
-    {title: "Naam Thai", location: {lat: 52.2305266, lng: 21.0609601}},
-    {title: "Trattoria Rucola", location: {lat: 52.2322225, lng: 21.0557555}},
-    {title: "National Stadium", location: {lat: 52.2394957, lng: 21.0457909}},
-    {title: "Stairs by Vistula River", location: {lat: 52.2328449, lng: 21.040925}},
-    {title: "Pikanteria", location: {lat: 52.2364695, lng: 21.0635283}}
+    {title: "Naam Thai", location: {lat: 52.2305266, lng: 21.0609601}, venueID: "5219002711d29ec039fe3dc4" },
+    {title: "Trattoria Rucola", location: {lat: 52.2322225, lng: 21.0557555}, venueID: "4c2890d99fb5d13aa9b09957"},
+    {title: "Renesans", location: {lat: 52.2353773, lng: 21.053194}, venueID: "4ba4d321f964a52065b838e3"},
+    {title: "Efes Kebab", location: {lat: 52.2313592, lng: 21.0550328}, venueID: "4b6a7debf964a520bdd62be3"},
+    {title: "Pikanteria", location: {lat: 52.2364695, lng: 21.0635283}, venueID: "4bfd5530b68d0f47239ce857"}
 ];
 
 
@@ -18,7 +17,7 @@ var ViewModel = function () {
 
     map = new google.maps.Map(document.getElementById('map'),{
         center: {lat: 52.2299052, lng: 21.0509418},
-        zoom: 14
+        zoom: 15
     });
 
     locations.forEach(function (locationItem) {
