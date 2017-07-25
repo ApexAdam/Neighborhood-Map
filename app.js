@@ -1,4 +1,6 @@
 var map;
+var CLIENT_ID;
+var CLIENT_SECRET;
 var locations = [
     {title: "Naam Thai", location: {lat: 52.2305266, lng: 21.0609601}, venueID: "5219002711d29ec039fe3dc4" },
     {title: "Trattoria Rucola", location: {lat: 52.2322225, lng: 21.0557555}, venueID: "4c2890d99fb5d13aa9b09957"},
@@ -15,9 +17,12 @@ var ViewModel = function () {
     this.filterInput = ko.observable("");
     this.visible = ko.observable(true);
 
+    CLIENT_ID='2KCT3BRAWRFBGOHY3VUH3NPE0DYUTCMVAOZIJ1LXAMTNVQIR';
+    CLIENT_SECRET='1DXYJ0DVIGWKQMZVKRJWI0GBJMJN21C5CYLYPFPCD4QQ3QK1';
+
     map = new google.maps.Map(document.getElementById('map'),{
         center: {lat: 52.2299052, lng: 21.0509418},
-        zoom: 15
+        zoom: 14
     });
 
     locations.forEach(function (locationItem) {
@@ -52,6 +57,21 @@ var Location = function (data) {
     this.locationName = data.title;
     this.infowindow = new google.maps.InfoWindow();
     this.visible = ko.observable(true);
+    this.address = "";
+    this.phone = "";
+    this.URL = "";
+
+    var foursquareLink = 'https://api.foursquare.com/v2/venues/' + data.venueID + '?oauth_token=VXWOS4YBG121YPFHG22WXHQXNGWM5YR1N2KRTBLIKAETBWLT&v=20170719';
+
+
+    $.getJSON(foursquareLink).done(function (data) {
+        var result = data.response;
+        self.address = result.venue.location.address;
+        self.phone = result.venue.contact.formattedPhone;
+        self.URL = result.venue.url;
+
+    });
+
 
 
         this.marker = new google.maps.Marker({
@@ -63,7 +83,11 @@ var Location = function (data) {
         this.marker.addListener('click', function () {
             if(self.infowindow !== self.marker) {
                 self.infowindow.marker = self.marker;
-                self.infowindow.setContent('<div>' + self.locationName + '</div>');
+                self.infowindow.setContent(
+                    '<div>' + self.locationName + ' <br></div>' +
+                    '<div>' + self.address + ' <br></div>' +
+                    '<div>' + self.phone + ' <br></div>' +
+                    '<div>' + self.URL + ' <br></div>');
                 self.infowindow.open(map, this);
             }
         });
@@ -86,3 +110,10 @@ var Location = function (data) {
 function runApp() {
     ko.applyBindings(new ViewModel());
 }
+
+$('#toggleButton').toggle(
+    function () {
+    $('#map').css('left', '0')
+}, function () {
+        $('#map').css('left', '280')
+    })

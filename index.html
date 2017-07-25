@@ -46,6 +46,12 @@
         li{
             color: #fcf7f7;
         }
+        button{
+            position: relative;
+            top: 50px;
+            left: 50px;
+            z-index: -1 !important;
+        }
 
     </style>
 </head>
@@ -59,6 +65,7 @@
             <li data-bind="text: locationName, click: focusOnMarker"></li>
         </ul>
     </div>
+    <button id="toggleButton">Toggle</button>
     <div id="map"></div>
 </div>
 
