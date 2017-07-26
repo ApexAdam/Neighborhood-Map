@@ -1,56 +1,5 @@
 var map;
 
-var locations = [{
-    title: "Naam Thai",
-    location: {
-        lat: 52.2274183,
-        lng: 21.0623226
-    },
-    venueID: "5219002711d29ec039fe3dc4"
-},
-    {
-        title: "Trattoria Rucola",
-        location: {
-            lat: 52.2322225,
-            lng: 21.0557555
-        },
-        venueID: "4c2890d99fb5d13aa9b09957"
-    },
-    {
-        title: "Akwarium",
-        location: {
-            lat: 52.236168,
-            lng: 21.054287
-        },
-        venueID: "4db70bb14df05e5aab135a60"
-    },
-    {
-        title: "Efes Kebab",
-        location: {
-            lat: 52.2313592,
-            lng: 21.0550328
-        },
-        venueID: "4b6a7debf964a520bdd62be3"
-    },
-    {
-        title: "Pikanteria",
-        location: {
-            lat: 52.2364695,
-            lng: 21.0635283
-        },
-        venueID: "4bfd5530b68d0f47239ce857"
-    },
-    {
-        title: "Towarzyska",
-        location: {
-            lat: 52.2329434,
-            lng: 21.0628921
-        },
-        venueID: "4f12ec2be4b067f6711a9db6"
-    }
-];
-
-
 var ViewModel = function() {
     var self = this;
 
@@ -63,8 +12,9 @@ var ViewModel = function() {
             lat: 52.230433,
             lng: 21.062702
         },
-        zoom: 15
+        zoom: 15,
     });
+    infowindow = new google.maps.InfoWindow();
 
     // Create the DIV to hold the control and call the CenterControl()
     // constructor passing in this DIV.
@@ -74,10 +24,12 @@ var ViewModel = function() {
     toggleControlDiv.index = 1;
     map.controls[google.maps.ControlPosition.LEFT_TOP].push(toggleControlDiv);
 
-    locations.forEach(function(locationItem) {
-        self.locationsList.push(new Location(locationItem));
-    });
+    $.getScript("js/locations.js", function () {
+        locations.forEach(function(locationItem) {
+            self.locationsList.push(new Location(locationItem));
+        });
 
+    });
     this.filteredList = ko.computed(function() {
         var filterText = self.filterInput().toLowerCase();
         if (!filterText) {
@@ -97,11 +49,11 @@ var ViewModel = function() {
 
 };
 
+
 var Location = function(data) {
     var self = this;
 
     this.locationName = data.title;
-    this.infowindow = new google.maps.InfoWindow();
     this.visible = ko.observable(true);
     this.address = "";
     this.phone = "";
@@ -133,14 +85,22 @@ var Location = function(data) {
         animation: google.maps.Animation.DROP
     });
     this.marker.addListener('click', function() {
-        if (self.infowindow !== self.marker) {
-            self.infowindow.marker = self.marker;
-            self.infowindow.setContent(
+        if (infowindow !== self.marker) {
+            infowindow.marker = self.marker;
+            if (self.marker.getAnimation() !== null) {
+                self.marker.setAnimation(null);
+            } else {
+                self.marker.setAnimation(google.maps.Animation.BOUNCE);
+                setTimeout(function () {
+                    self.marker.setAnimation(null);
+                }, 1550);
+            }
+            infowindow.setContent(
                 '<div><strong>' + self.locationName + '</strong><br></div>' +
                 '<div>' + self.address + ' <br></div>' +
                 '<div>' + self.phone + ' <br></div>' +
                 '<div>' + self.URL + ' <br></div>');
-            self.infowindow.open(map, this);
+            infowindow.open(map, this);
         }
     });
 
@@ -212,4 +172,4 @@ function CenterControl(controlDiv, map) {
 
 function runApp() {
     ko.applyBindings(new ViewModel());
-}
+};
