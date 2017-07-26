@@ -169,7 +169,10 @@ function CenterControl(controlDiv, map) {
 
 }
 
-
 function runApp() {
     ko.applyBindings(new ViewModel());
 };
+
+function mapsLoadError() {
+    console.log("Could not load google maps API. Please refresh page or try again latter.")
+}
