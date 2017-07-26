@@ -5,13 +5,16 @@ body {
     margin: 0;
     padding: 0;
 }
+
 .container {
     height: 100%;
     position: relative;
 }
+
 input {
     font-size: 12px;
 }
+
 h1 {
     color: #fcf7f7;
     font-size: 22px;
@@ -19,13 +22,15 @@ h1 {
     float: left;
     margin: 0 10px 10px 0;
 }
+
 #map {
-    bottom:0;
+    bottom: 0;
     height: 100%;
     left: 242px;
     position: absolute;
     right: 0;
 }
+
 .search-box {
     background: #4f5051;
     border: 1px solid #999;
@@ -37,10 +42,11 @@ h1 {
     width: 220px;
 }
 
-li{
+li {
     color: #fcf7f7;
 }
-button{
+
+button {
     position: absolute;
     top: 350px;
     left: 350px;
